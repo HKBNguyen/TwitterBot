@@ -6,10 +6,10 @@ from textblob import TextBlob
 class TwitterClient(object):
 	def __init__(self):
 		# keys and tokens from Twitter API
-		c_key = ""
-		c_secret = ""
-		a_token = ""
-		a_token_secret = ""
+		c_key = "x4vMSb3XpfAnY1SOC3p2uLgu8"
+		c_secret = "1TnSKvGYBLYx4zZL4nFB2sRla1uSnzng3rC6tGWni1LxxOzLHH"
+		a_token = "1066144772987842560-UHTYUni0mYVPK0tQI1vczADoK5q2o1"
+		a_token_secret = "IzRuZWbT8jVMxdXQmnLe4jiEy1qkAWtajsLC6f48jYrS9"
 		try:
 			self.auth = OAuthHandler(c_key, c_secret)
 			self.auth.set_access_token(a_token, a_token_secret)
@@ -34,7 +34,7 @@ class TwitterClient(object):
 			for t in fetched_tweets:
 				parsed_tweet = {}
 				parsed_tweet['text'] = t.text
-				parsed_tweet['sentiment'] = self.get_tweet_sentiment(t.text)
+				parsed_tweet['sentiment'] = self.get_sentiment(t.text)
 				if t.retweet_count > 0:
 					if parsed_tweet not in tweets:
 						tweets.append(parsed_tweet)
@@ -45,12 +45,12 @@ class TwitterClient(object):
 			print("Error: " + str(e))
 def main():
 	api = TwitterClient()
-	tweets = api.get_tweets(query = 'Supreme Box', count = 200)
-	posTweets = [tweet for t in tweets if tweet['sentiment'] == 'positive']
+	tweets = api.get_tweets(query = 'Apple', count = 200)
+	posTweets = [t for t in tweets if t['sentiment'] == 'positive']
 	print("Positive tweets percentage: {} % ".format(100*len(posTweets)/len(tweets)))
-	negTweets = [tweet for t in tweets if tweet['sentiment'] == 'negative']
+	negTweets = [t for t in tweets if t['sentiment'] == 'negative']
 	print("Negative tweets percentage: {} % ".format(100*len(negTweets)/len(tweets)))
-	neuTweets = [tweet for t in tweets if tweet['sentiment'] == 'neutral']
+	neuTweets = [t for t in tweets if t['sentiment'] == 'neutral']
 	print("Neutral tweets percentage: {} % ".format(100*len(neuTweets)/len(tweets)))
 	#printing all of the tweets
 	print("\n\nPositive Tweets:")
